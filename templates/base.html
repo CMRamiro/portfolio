@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Michael Ramiro Cáceres | Desarrollador Junior{% endblock %}</title>
 
-    <!-- Favicon (requisito académico) -->
+    
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}">
 
-    <!-- Tipografía de Google Fonts (requisito académico) -->
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Iconos FontAwesome (requisito académico) -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Estilos principales -->
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block head %}{% endblock %}
 </head>
 <body>
-    <!-- Menú de navegación sencillo -->
+    
     <header class="header">
         <nav class="navbar container">
             <a href="#inicio" class="logo">MRC<span>.</span></a>

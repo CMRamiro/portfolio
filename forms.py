@@ -1,7 +1,4 @@
-﻿"""
-Formularios del proyecto usando Flask-WTF.
-Incluye formularios públicos y de administración.
-"""
+﻿
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SubmitField, BooleanField, IntegerField
@@ -9,7 +6,7 @@ from wtforms.validators import DataRequired, Email, Length, Optional
 
 
 class LoginForm(FlaskForm):
-    """Formulario de inicio de sesión para el administrador."""
+   
 
     username = StringField("Usuario", validators=[DataRequired(), Length(max=50)])
     password = PasswordField("Contraseña", validators=[DataRequired()])
@@ -17,7 +14,7 @@ class LoginForm(FlaskForm):
 
 
 class ContactoForm(FlaskForm):
-    """Formulario de contacto público."""
+  
 
     nombre = StringField("Nombre", validators=[DataRequired(), Length(max=100)])
     email = StringField("Correo electrónico", validators=[DataRequired(), Email(), Length(max=120)])
@@ -26,7 +23,7 @@ class ContactoForm(FlaskForm):
 
 
 class PerfilForm(FlaskForm):
-    """Formulario para editar la información del perfil."""
+  
 
     nombre = StringField("Nombre", validators=[DataRequired(), Length(max=100)])
     titulo = StringField("Título", validators=[DataRequired(), Length(max=100)])
@@ -39,7 +36,7 @@ class PerfilForm(FlaskForm):
 
 
 class TecnologiaForm(FlaskForm):
-    """Formulario para gestionar tecnologías."""
+   
 
     nombre = StringField("Nombre", validators=[DataRequired(), Length(max=80)])
     icono = StringField("Icono (clase FontAwesome)", validators=[Optional(), Length(max=80)])
@@ -48,7 +45,7 @@ class TecnologiaForm(FlaskForm):
 
 
 class ProyectoForm(FlaskForm):
-    """Formulario para gestionar proyectos."""
+   
 
     titulo = StringField("Título", validators=[DataRequired(), Length(max=150)])
     descripcion = TextAreaField("Descripción", validators=[Optional()])
@@ -57,7 +54,7 @@ class ProyectoForm(FlaskForm):
 
 
 class FormacionForm(FlaskForm):
-    """Formulario para gestionar formación académica."""
+    
 
     institucion = StringField("Institución", validators=[DataRequired(), Length(max=150)])
     carrera = StringField("Carrera", validators=[DataRequired(), Length(max=150)])

@@ -1,5 +1,4 @@
-﻿// JavaScript sencillo para el portfolio
-// Funcionalidad: abrir/cerrar el menú en pantallas pequeñas (responsive)
+﻿
 
 document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.getElementById("menu-toggle");
@@ -10,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             navLinks.classList.toggle("active");
         });
 
-        // Cerrar el menú al hacer clic en un enlace
+       
         const links = navLinks.querySelectorAll("a");
         links.forEach(function (link) {
             link.addEventListener("click", function () {

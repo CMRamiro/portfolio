@@ -1,24 +1,16 @@
-﻿/* =========================================================
-   Portfolio - Michael Ramiro Cáceres
-   Diseño: oscuro, negro azulado, azul eléctrico, minimalista
-   Tipografía: Poppins (Google Fonts) - cargada en base.html
-   Requisito: página responsive (celular, tablet y escritorio)
-   Requisito: animaciones, transformaciones y transiciones
-   ========================================================= */
-
-/* Variables de colores y estilos generales */
+﻿
 :root {
-    --bg-dark: #0b1220;        /* negro azulado */
+    --bg-dark: #0b1220;       
     --bg-card: #111a2e;
     --bg-alt: #0e1628;
-    --primary: #00aaff;        /* azul eléctrico */
+    --primary: #00aaff;        
     --primary-hover: #33bbff;
     --text: #e6e6e6;
     --text-muted: #a8b2c1;
     --border: #1e2a40;
 }
 
-/* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -26,7 +18,7 @@
 }
 
 html {
-    scroll-behavior: smooth; /* transición suave al navegar por secciones */
+    scroll-behavior: smooth; 
 }
 
 body {
@@ -84,7 +76,7 @@ a {
 .nav-links a {
     color: var(--text-muted);
     font-size: 0.95rem;
-    /* Transición al pasar el cursor (requisito) */
+   
     transition: color 0.3s ease;
 }
 
@@ -129,11 +121,11 @@ a {
     margin-bottom: 2rem;
 }
 
-/* Animación de aparición suave (requisito: animación) */
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px); /* transformación */
+        transform: translateY(20px); 
     }
     to {
         opacity: 1;
@@ -145,7 +137,7 @@ a {
     animation: fadeInUp 0.8s ease;
 }
 
-/* Hero / Inicio */
+
 .hero {
     min-height: 100vh;
     display: flex;
@@ -186,7 +178,7 @@ a {
     gap: 1rem;
 }
 
-/* Botones con transición (requisito) */
+
 .btn {
     display: inline-block;
     padding: 0.7rem 1.2rem;
@@ -204,7 +196,7 @@ a {
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px); /* transformación al hover */
+    transform: translateY(-2px); 
 }
 
 .btn-secondary {
@@ -216,7 +208,6 @@ a {
     background-color: rgba(0, 170, 255, 0.1);
 }
 
-/* Placeholder de foto */
 .photo-placeholder {
     width: 220px;
     height: 220px;
@@ -237,21 +228,20 @@ a {
     color: var(--primary);
 }
 
-/* Tarjetas con bordes sutiles y transición hover */
+
 .card {
     background-color: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.5rem;
-    transition: transform 0.3s ease, border-color 0.3s ease; /* transición */
+    transition: transform 0.3s ease, border-color 0.3s ease; 
 }
 
 .card:hover {
-    transform: translateY(-4px); /* transformación */
+    transform: translateY(-4px);
     border-color: var(--primary);
 }
 
-/* Grillas */
 .grid {
     display: grid;
     gap: 1.2rem;
@@ -296,7 +286,6 @@ a {
     font-weight: 500;
 }
 
-/* Formación e Iframe */
 .formation-card i {
     color: var(--primary);
     margin-right: 0.4rem;
@@ -317,7 +306,6 @@ a {
     border: 1px solid var(--border);
 }
 
-/* Contacto */
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
@@ -356,7 +344,6 @@ a {
     border-color: var(--primary);
 }
 
-/* CV */
 .cv-section {
     text-align: center;
 }
@@ -371,7 +358,6 @@ a {
     color: var(--text-muted);
 }
 
-/* Footer */
 .footer {
     text-align: center;
     padding: 1.5rem 0;
@@ -380,7 +366,6 @@ a {
     font-size: 0.9rem;
 }
 
-/* Diseño responsive para tablet y celular (requisito) */
 @media (max-width: 900px) {
     .hero-content {
         grid-template-columns: 1fr;
@@ -416,14 +401,14 @@ a {
         font-size: 2rem;
     }
 }
-/* Mensajes flash y estilos del panel admin (etapa 5) */
+
 .flash { padding: 0.5rem 0.8rem; border-radius: 6px; margin-bottom: 0.8rem; }
 .flash.success { background: rgba(0,170,255,0.15); border: 1px solid var(--primary); }
 .flash.error { background: rgba(255,80,80,0.15); border: 1px solid #ff5050; color: #ffb3b3; }
 .admin-list { list-style: none; padding-left: 0; }
 .admin-list li { margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
 .link-danger { background: none; border: none; color: #ff7070; cursor: pointer; margin-left: 0.5rem; font-family: inherit; }
-/* Foto de perfil y texto con saltos de línea (etapa 7) */
+
 .profile-photo {
     width: 220px;
     height: 220px;

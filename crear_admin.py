@@ -1,12 +1,4 @@
-﻿"""
-Script de utilidad para crear el usuario administrador.
-
-Uso:
-    python crear_admin.py
-
-Requiere que la base de datos y las tablas ya existan
-(ejecutar antes database/schema.sql).
-"""
+﻿
 
 from getpass import getpass
 from werkzeug.security import generate_password_hash
