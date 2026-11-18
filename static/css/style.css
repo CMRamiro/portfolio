@@ -1,0 +1,436 @@
+﻿/* =========================================================
+   Portfolio - Michael Ramiro Cáceres
+   Diseño: oscuro, negro azulado, azul eléctrico, minimalista
+   Tipografía: Poppins (Google Fonts) - cargada en base.html
+   Requisito: página responsive (celular, tablet y escritorio)
+   Requisito: animaciones, transformaciones y transiciones
+   ========================================================= */
+
+/* Variables de colores y estilos generales */
+:root {
+    --bg-dark: #0b1220;        /* negro azulado */
+    --bg-card: #111a2e;
+    --bg-alt: #0e1628;
+    --primary: #00aaff;        /* azul eléctrico */
+    --primary-hover: #33bbff;
+    --text: #e6e6e6;
+    --text-muted: #a8b2c1;
+    --border: #1e2a40;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* transición suave al navegar por secciones */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Navegación */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(11, 18, 32, 0.95);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    /* Transición al pasar el cursor (requisito) */
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.btn-nav {
+    border: 1px solid var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+/* Secciones generales */
+.section {
+    padding: 5rem 0;
+}
+
+.section-alt {
+    background-color: var(--bg-alt);
+}
+
+.section-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.section-description {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+/* Animación de aparición suave (requisito: animación) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* transformación */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content, .card {
+    animation: fadeInUp 0.8s ease;
+}
+
+/* Hero / Inicio */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 6rem;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: #fff;
+}
+
+.hero h2 {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.intro {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Botones con transición (requisito) */
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #081018;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px); /* transformación al hover */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 170, 255, 0.1);
+}
+
+/* Placeholder de foto */
+.photo-placeholder {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 2px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-muted);
+    background-color: var(--bg-card);
+}
+
+.photo-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+/* Tarjetas con bordes sutiles y transición hover */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease; /* transición */
+}
+
+.card:hover {
+    transform: translateY(-4px); /* transformación */
+    border-color: var(--primary);
+}
+
+/* Grillas */
+.grid {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.tech-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.tech-card {
+    text-align: center;
+}
+
+.tech-card i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.tech-card h3 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    color: #081018;
+    background-color: var(--primary);
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+}
+
+.projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.link-project {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-weight: 500;
+}
+
+/* Formación e Iframe */
+.formation-card i {
+    color: var(--primary);
+    margin-right: 0.4rem;
+}
+
+.iframe-container {
+    margin-top: 2rem;
+}
+
+.iframe-title {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+.iframe-container iframe {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+/* Contacto */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.5rem;
+}
+
+.contact-info p {
+    margin-bottom: 0.8rem;
+}
+
+.contact-info i {
+    color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background-color: #0b1324;
+    color: var(--text);
+    font-family: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* CV */
+.cv-section {
+    text-align: center;
+}
+
+.cv-section .btn {
+    margin-top: 1rem;
+}
+
+.note {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Diseño responsive para tablet y celular (requisito) */
+@media (max-width: 900px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--bg-dark);
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+        display: none;
+    }
+    .nav-links.active {
+        display: flex;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+/* Mensajes flash y estilos del panel admin (etapa 5) */
+.flash { padding: 0.5rem 0.8rem; border-radius: 6px; margin-bottom: 0.8rem; }
+.flash.success { background: rgba(0,170,255,0.15); border: 1px solid var(--primary); }
+.flash.error { background: rgba(255,80,80,0.15); border: 1px solid #ff5050; color: #ffb3b3; }
+.admin-list { list-style: none; padding-left: 0; }
+.admin-list li { margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.link-danger { background: none; border: none; color: #ff7070; cursor: pointer; margin-left: 0.5rem; font-family: inherit; }
+/* Foto de perfil y texto con saltos de línea (etapa 7) */
+.profile-photo {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    display: block;
+    margin: 0 auto;
+}
+.about-text { white-space: pre-line; }

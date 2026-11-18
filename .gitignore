@@ -1,0 +1,11 @@
+﻿# Archivos sensibles y generados
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+instance/
+*.log

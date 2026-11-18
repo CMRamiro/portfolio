@@ -1,0 +1,480 @@
+﻿
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- SECCIÓN INICIO -->
+<section id="inicio" class="section hero">
+    <div class="container hero-content">
+
+        <div class="hero-text">
+            <p class="subtitle">Hola, soy</p>
+
+            <h1>{{ perfil.nombre if perfil else "Michael Ramiro Cáceres" }}</h1>
+
+            <h2>{{ perfil.titulo if perfil else "Desarrollador Junior" }}</h2>
+
+            <p class="intro">
+                Estudiante de Técnico en Programación interesado en el
+                desarrollo de software y las nuevas tecnologías.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#proyectos" class="btn btn-primary">
+                    Ver proyectos
+                </a>
+
+                <a href="#contacto" class="btn btn-secondary">
+                    Contactarme
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img
+                src="{{ url_for('static', filename='img/cmrfoto.png') }}"
+                alt="Foto de Michael Ramiro Cáceres"
+                class="profile-photo"
+            >
+        </div>
+
+    </div>
+</section>
+
+
+<!-- SECCIÓN SOBRE MÍ -->
+<section id="sobre-mi" class="section">
+    <div class="container">
+
+        <h2 class="section-title">Sobre mí</h2>
+
+        <div class="card about-card">
+
+            {% if perfil and perfil.descripcion %}
+
+                <p class="about-text">
+                    {{ perfil.descripcion }}
+                </p>
+
+            {% else %}
+
+                <p>
+                    Soy Michael Ramiro Cáceres, estudiante interesado en
+                    la programación, el desarrollo de software y las nuevas
+                    tecnologías. Me considero una persona autodidacta,
+                    curiosa y con iniciativa para aprender y desarrollar
+                    nuevos proyectos.
+                </p>
+
+                <p>
+                    Tengo conocimientos en Python, desarrollo web y bases
+                    de datos, y he trabajado en proyectos utilizando
+                    tecnologías como Flask y Django. También tengo interés
+                    en el diseño, los negocios digitales y los
+                    emprendimientos, áreas en las que busco seguir creciendo
+                    y adquiriendo experiencia.
+                </p>
+
+                <p>
+                    Mi objetivo es continuar desarrollando mis habilidades
+                    tecnológicas, participar en nuevos proyectos y construir
+                    soluciones digitales que combinen creatividad,
+                    funcionalidad e innovación.
+                </p>
+
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+<!-- SECCIÓN TECNOLOGÍAS -->
+<section id="tecnologias" class="section section-alt">
+    <div class="container">
+
+        <h2 class="section-title">Tecnologías</h2>
+
+        <p class="section-description">
+            Lenguajes y herramientas que utilizo y estudio.
+        </p>
+
+        <div class="grid tech-grid">
+
+            {% if tecnologias %}
+
+                {% for t in tecnologias %}
+
+                <div class="card tech-card{% if t.aprendiendo %} learning{% endif %}">
+
+                    <i class="{{ t.icono or 'fa-solid fa-code' }}"></i>
+
+                    <h3>{{ t.nombre }}</h3>
+
+                    {% if t.aprendiendo %}
+                        <span class="badge">Aprendiendo</span>
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-python"></i>
+                    <h3>Python</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-html5"></i>
+                    <h3>HTML</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-css3-alt"></i>
+                    <h3>CSS</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-js"></i>
+                    <h3>JavaScript</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-solid fa-flask"></i>
+                    <h3>Flask</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-solid fa-code"></i>
+                    <h3>Django</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-git-alt"></i>
+                    <h3>Git</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-brands fa-github"></i>
+                    <h3>GitHub</h3>
+                </div>
+
+                <div class="card tech-card">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <h3>Flet</h3>
+                </div>
+
+                <div class="card tech-card learning">
+                    <i class="fa-solid fa-database"></i>
+                    <h3>MySQL</h3>
+                    <span class="badge">Aprendiendo</span>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+<!-- SECCIÓN PROYECTOS -->
+<section id="proyectos" class="section">
+    <div class="container">
+
+        <h2 class="section-title">Proyectos</h2>
+
+        <p class="section-description">
+            Algunos proyectos realizados. Se pueden gestionar desde
+            el panel de administración.
+        </p>
+
+        <div class="grid projects-grid">
+
+            {% if proyectos %}
+
+                {% for p in proyectos %}
+
+                <article class="card project-card">
+
+                    <h3>{{ p.titulo }}</h3>
+
+                    <p>
+                        {{ p.descripcion or "Sin descripción." }}
+                    </p>
+
+                    {% if p.url_github %}
+
+                    <a
+                        href="{{ p.url_github }}"
+                        target="_blank"
+                        rel="noopener"
+                        class="link-project"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                        Ver en GitHub
+                    </a>
+
+                    {% endif %}
+
+                </article>
+
+                {% endfor %}
+
+            {% else %}
+
+                <article class="card project-card">
+
+                    <h3>Proyecto en desarrollo</h3>
+
+                    <p>
+                        Espacio reservado para mostrar proyectos personales
+                        y académicos con su descripción y tecnologías.
+                    </p>
+
+                    <a
+                        href="https://github.com/CMRamiro"
+                        target="_blank"
+                        rel="noopener"
+                        class="link-project"
+                    >
+                        <i class="fa-brands fa-github"></i>
+                        Ver en GitHub
+                    </a>
+
+                </article>
+
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+<!-- SECCIÓN FORMACIÓN -->
+<section id="formacion" class="section section-alt">
+    <div class="container">
+
+        <h2 class="section-title">Formación</h2>
+
+        {% if formaciones %}
+
+            {% for f in formaciones %}
+
+            <div class="card formation-card" style="margin-bottom:1rem;">
+
+                <h3>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    {{ f.institucion }}
+                </h3>
+
+                <p>
+                    <strong>Carrera:</strong> {{ f.carrera }}
+                </p>
+
+                {% if f.ubicacion %}
+                    <p>
+                        <strong>Ubicación:</strong> {{ f.ubicacion }}
+                    </p>
+                {% endif %}
+
+                {% if f.anio_inicio %}
+                    <p>
+                        <strong>Año de inicio:</strong> {{ f.anio_inicio }}
+                    </p>
+                {% endif %}
+
+                {% if f.anio_fin_estimado %}
+                    <p>
+                        <strong>Año de finalización estimado:</strong>
+                        {{ f.anio_fin_estimado }}
+                    </p>
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="card formation-card">
+
+                <h3>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Instituto Técnico Renault
+                </h3>
+
+                <p>
+                    <strong>Carrera:</strong> Técnico en Programación
+                </p>
+
+                <p>
+                    <strong>Ubicación:</strong> Córdoba, Argentina
+                </p>
+
+                <p>
+                    <strong>Año de inicio:</strong> 2021
+                </p>
+
+                <p>
+                    <strong>Año de finalización estimado:</strong> 2027
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- MAPA DE CÓRDOBA -->
+        <div class="iframe-container">
+
+            <h3 class="iframe-title">
+                Ubicación - Córdoba, Argentina
+            </h3>
+
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d217955.0018436024!2d-64.3344293!3d-31.3993437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432985f478f5b69%3A0xb0a24f9a5366b092!2zQ8OzcmRvYmE!5e0!3m2!1ses!2sar!4v1710000000000"
+                width="100%"
+                height="300"
+                style="border:0;"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mapa de Córdoba, Argentina"
+            ></iframe>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- SECCIÓN CONTACTO -->
+<section id="contacto" class="section">
+    <div class="container">
+
+        <h2 class="section-title">Contacto</h2>
+
+        <div class="contact-grid">
+
+            <div class="card contact-info">
+
+                <h3>Información de contacto</h3>
+
+                <p>
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <a href="mailto:{{ perfil.email if perfil and perfil.email else 'michaelramirocaceres@gmail.com' }}">
+                        {{ perfil.email if perfil and perfil.email else 'michaelramirocaceres@gmail.com' }}
+                    </a>
+                </p>
+
+                <p>
+                    <i class="fa-brands fa-github"></i>
+
+                    <a
+                        href="{{ perfil.github if perfil and perfil.github else 'https://github.com/CMRamiro' }}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        {{ perfil.github if perfil and perfil.github else 'https://github.com/CMRamiro' }}
+                    </a>
+                </p>
+
+            </div>
+
+
+            <div class="card contact-form-card">
+
+                <h3>Enviar mensaje</h3>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %}
+
+                        {% for category, message in messages %}
+
+                            <p class="flash {{ category }}">
+                                {{ message }}
+                            </p>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                {% endwith %}
+
+
+                <!-- FORMULARIO DE CONTACTO -->
+                <form
+                    class="contact-form"
+                    method="post"
+                    action="{{ url_for('main.index') }}#contacto"
+                >
+
+                    {{ form_contacto.hidden_tag() }}
+
+                    <label for="nombre">Nombre</label>
+
+                    {{ form_contacto.nombre(
+                        id="nombre",
+                        placeholder="Tu nombre"
+                    ) }}
+
+
+                    <label for="email">Correo electrónico</label>
+
+                    {{ form_contacto.email(
+                        id="email",
+                        placeholder="tu@email.com"
+                    ) }}
+
+
+                    <label for="mensaje">Mensaje</label>
+
+                    {{ form_contacto.mensaje(
+                        id="mensaje",
+                        rows="4",
+                        placeholder="Escribe tu mensaje"
+                    ) }}
+
+
+                    {{ form_contacto.submit(class="btn btn-primary") }}
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- SECCIÓN CV -->
+<section id="cv" class="section section-alt">
+    <div class="container cv-section">
+
+        <h2 class="section-title">Currículum Vitae</h2>
+
+        <p>
+            Puedes descargar mi CV en formato PDF.
+        </p>
+
+        <a
+            href="{{ url_for('static', filename='docs/cv.pdf') }}"
+            class="btn btn-primary"
+            download
+        >
+            <i class="fa-solid fa-download"></i>
+            Descargar mi CV
+        </a>
+
+        <p class="note">
+            Currículum Vitae en formato PDF.
+        </p>
+
+    </div>
+</section>
+
+{% endblock %}

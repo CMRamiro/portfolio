@@ -1,0 +1,84 @@
+﻿{% extends "base.html" %}
+{% block title %}Panel de administración{% endblock %}
+{% block content %}
+<section class="section" style="padding-top:7rem;">
+  <div class="container">
+    <h2 class="section-title">Panel de administración</h2>
+    <p style="text-align:center; margin-bottom:1rem;">Hola, {{ current_user.username }} | <a href="{{ url_for('main.logout') }}">Cerrar sesión</a></p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p class="flash {{ category }}">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card" style="margin-bottom:1rem;">
+      <h3>Perfil</h3>
+      {% if perfil %}
+        <p><strong>{{ perfil.nombre }}</strong> - {{ perfil.titulo }}</p>
+      {% else %}
+        <p>No hay perfil cargado.</p>
+      {% endif %}
+      <a class="btn btn-secondary" href="{{ url_for('main.admin_perfil') }}">Editar perfil</a>
+    </div>
+
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div class="card">
+        <h3>Tecnologías</h3>
+        <a class="btn btn-primary" href="{{ url_for('main.admin_tecnologias') }}" style="margin:0.5rem 0;">Agregar</a>
+        <ul class="admin-list">
+          {% for t in tecnologias %}
+          <li>{{ t.nombre }}{% if t.aprendiendo %} (aprendiendo){% endif %}
+            <form method="post" action="{{ url_for('main.eliminar_tecnologia', id=t.id) }}" style="display:inline;">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="link-danger">Eliminar</button>
+            </form>
+          </li>
+          {% else %}<li>Sin tecnologías.</li>{% endfor %}
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Proyectos</h3>
+        <a class="btn btn-primary" href="{{ url_for('main.admin_proyectos') }}" style="margin:0.5rem 0;">Agregar</a>
+        <ul class="admin-list">
+          {% for p in proyectos %}
+          <li>{{ p.titulo }}
+            <form method="post" action="{{ url_for('main.eliminar_proyecto', id=p.id) }}" style="display:inline;">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="link-danger">Eliminar</button>
+            </form>
+          </li>
+          {% else %}<li>Sin proyectos.</li>{% endfor %}
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Formación</h3>
+        <a class="btn btn-primary" href="{{ url_for('main.admin_formacion') }}" style="margin:0.5rem 0;">Agregar</a>
+        <ul class="admin-list">
+          {% for f in formaciones %}
+          <li>{{ f.carrera }} - {{ f.institucion }}
+            <form method="post" action="{{ url_for('main.eliminar_formacion', id=f.id) }}" style="display:inline;">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="link-danger">Eliminar</button>
+            </form>
+          </li>
+          {% else %}<li>Sin formación.</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h3>Mensajes de contacto</h3>
+      <ul class="admin-list">
+        {% for m in mensajes %}
+        <li><strong>{{ m.nombre }}</strong> ({{ m.email }}): {{ m.mensaje }}</li>
+        {% else %}<li>No hay mensajes.</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

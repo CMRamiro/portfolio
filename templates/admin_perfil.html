@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+{% block title %}Editar perfil | Admin{% endblock %}
+{% block content %}
+<section class="section" style="padding-top:7rem;">
+  <div class="container" style="max-width:700px;">
+    <h2 class="section-title">Editar perfil</h2>
+    <div class="card">
+      <form method="post" class="contact-form">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.type not in ['CSRFToken', 'SubmitField'] %}
+          <label for="{{ field.id }}">{{ field.label.text }}</label>
+          {{ field(id=field.id) }}
+          {% for error in field.errors %}<span class="flash error">{{ error }}</span>{% endfor %}
+        {% endfor %}
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('main.admin') }}" class="btn btn-secondary">Volver</a>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

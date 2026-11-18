@@ -1,0 +1,8 @@
+﻿# Dependencias del proyecto Portfolio
+Flask
+Flask-WTF
+Flask-Login
+Flask-SQLAlchemy
+PyMySQL
+python-dotenv
+email-validator
