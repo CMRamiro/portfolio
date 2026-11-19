@@ -9,7 +9,7 @@ from wtforms import (
     SubmitField,
     TextAreaField,
 )
-from wtforms.validators import DataRequired, Email, Length, NumberRange, Optional
+from wtforms.validators import DataRequired, Email, Length, NumberRange, Optional, Regexp
 
 ESTADOS_TECNOLOGIA = [
     ("Conocimiento", "Conocimiento"),
@@ -33,17 +33,27 @@ class ContactoForm(FlaskForm):
     submit = SubmitField("Enviar")
 
 
+EMAIL_LOCAL = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+
+
 class PerfilForm(FlaskForm):
     nombre_completo = StringField("Nombre completo", validators=[DataRequired(), Length(max=120)])
     titulo = StringField("Título", validators=[DataRequired(), Length(max=100)])
     presentacion = TextAreaField("Presentación", validators=[Optional()])
     sobre_mi = TextAreaField("Sobre mí", validators=[Optional()])
     objetivo = TextAreaField("Objetivo", validators=[Optional()])
-    email = StringField("Correo", validators=[DataRequired(), Email(), Length(max=120)])
+    email = StringField("Correo", validators=[DataRequired(), Regexp(EMAIL_LOCAL), Length(max=120)])
     github_url = StringField("GitHub", validators=[Optional(), Length(max=255)])
     ubicacion = StringField("Ubicación", validators=[Optional(), Length(max=150)])
     foto = StringField("Foto (archivo en static/img)", validators=[Optional(), Length(max=255)])
     cv_archivo = StringField("CV (archivo en static/docs)", validators=[Optional(), Length(max=255)])
+    submit = SubmitField("Guardar")
+
+
+class AdminCuentaForm(FlaskForm):
+    nombre = StringField("Nombre", validators=[DataRequired(), Length(max=120)])
+    email = StringField("Correo de acceso", validators=[DataRequired(), Regexp(EMAIL_LOCAL), Length(max=120)])
+    password = PasswordField("Nueva contraseña", validators=[Optional(), Length(min=8)])
     submit = SubmitField("Guardar")
 
 

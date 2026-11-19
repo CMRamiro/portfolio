@@ -3,9 +3,10 @@
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy import or_
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from forms import (
+    AdminCuentaForm,
     ContactoForm,
     FormacionForm,
     LoginForm,
@@ -167,6 +168,30 @@ def admin_perfil():
         return redirect(url_for("main.admin"))
 
     return render_template("admin_perfil.html", form=form, perfil=perfil)
+
+
+@main_bp.route("/admin/cuenta", methods=["GET", "POST"])
+@admin_required
+def admin_cuenta():
+    usuario = db.session.get(Usuario, current_user.id) or abort(404)
+    form = AdminCuentaForm(obj=usuario)
+
+    if form.validate_on_submit():
+        email = (form.email.data or "").strip().lower()
+        otro_usuario = Usuario.query.filter(
+            Usuario.email == email, Usuario.id != usuario.id
+        ).first()
+        if otro_usuario:
+            form.email.errors.append("Ya existe un usuario con ese correo.")
+        else:
+            usuario.nombre = (form.nombre.data or "").strip()
+            usuario.email = email
+            if form.password.data:
+                usuario.password_hash = generate_password_hash(form.password.data)
+            guardar("Datos de acceso actualizados.")
+            return redirect(url_for("main.admin"))
+
+    return render_template("admin_cuenta.html", form=form)
 
 
 @main_bp.route("/admin/tecnologias/nueva", methods=["GET", "POST"])

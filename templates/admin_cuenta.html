@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Datos de acceso | Admin{% endblock %}
+{% block content %}
+<section class="section" style="padding-top:7rem;">
+  <div class="container" style="max-width:600px;">
+    <h2 class="section-title">Datos de acceso</h2>
+    <div class="card">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <p class="flash {{ category }}">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <form method="post" class="contact-form">
+        {{ form.hidden_tag() }}
+        {% for field in form if field.type not in ['CSRFToken', 'SubmitField'] %}
+          <label for="{{ field.id }}">{{ field.label.text }}</label>
+          {{ field(id=field.id) }}
+          {% for error in field.errors %}<span class="flash error">{{ error }}</span>{% endfor %}
+        {% endfor %}
+        <p class="note">Dejá la contraseña vacía para conservar la actual.</p>
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('main.admin') }}" class="btn btn-secondary">Volver</a>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

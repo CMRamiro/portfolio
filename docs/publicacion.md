@@ -34,14 +34,7 @@
    ```
    mysql -h HOST -P 4000 -u USUARIO -p --ssl-mode=VERIFY_IDENTITY --ssl-ca=RUTA_CA < database/schema_externo.sql
    ```
-   Crear el administrador **antes** de cargar los datos (el perfil inicial se asocia al administrador):
-   ```
-   python crear_admin.py
-   ```
-   También podés crear usuarios sin prompts:
-   ```
-   ADMIN_NOMBRE="Michael" ADMIN_EMAIL="correo@ejemplo.com" ADMIN_PASSWORD="clave-segura" python crear_admin.py
-   ```
+   Definir `ADMIN_NOMBRE`, `ADMIN_EMAIL` y `ADMIN_PASSWORD` en el entorno (en `.env` local o en las variables de Render). La aplicación crea el administrador automáticamente al iniciar, antes de cargar los datos (el perfil inicial se asocia al administrador). Después podés cambiar nombre, correo y contraseña desde **Panel admin > Datos de acceso**. Para forzar el valor de las variables sobre un administrador ya creado, definir `ADMIN_RESET=true` temporalmente y reiniciar.
    Después:
    ```
    mysql -h HOST -P 4000 -u USUARIO -p --ssl-mode=VERIFY_IDENTITY --ssl-ca=RUTA_CA < database/insertar_datos_externo.sql
@@ -59,13 +52,16 @@
    - `FLASK_PRODUCTION=true`, `FLASK_DEBUG=0`.
    - `DB_HOST`, `DB_PORT=4000`, `DB_USER`, `DB_PASSWORD`, `DB_NAME=portfolio_db`.
    - `DB_SSL_CA=/etc/ssl/certs/ca-certificates.crt` (o la ruta del CA descargado), `DB_SSL_VERIFY_IDENTITY=true`.
+   - `ADMIN_NOMBRE`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`: obligatorios para crear el administrador al iniciar.
+   - `ADMIN_RESET=true`: opcional y temporal, fuerza sobrescribir el administrador existente con las variables anteriores.
    - `WEB_CONCURRENCY=2` (opcional). Render define `PORT` automáticamente.
    - `.python-version` ya fija Python `3.13.5`; alternativamente configurar `PYTHON_VERSION=3.13.5`.
 8. En **Health Check Path** poner `/` y desplegar.
 9. Verificar `/`, `/login`, `/static/img/cmrfoto.png`, `/static/docs/cv.pdf` y el panel `/admin`.
-10. El plan Free de Render no incluye Shell ni one-off jobs: crear el administrador desde tu máquina con `crear_admin.py`, como en el paso 4.
+10. El plan Free de Render no incluye Shell ni one-off jobs: el administrador se crea automáticamente al iniciar con las variables `ADMIN_*`. `crear_admin.py` queda como opción manual.
 
 ## 4. Recomendaciones antes de publicar
+
 - Cambiar la `SECRET_KEY` por una clave larga y privada.
 - No subir `.env`, `.env.txt` ni contraseñas al repositorio. Si la clave de `.env.txt` fue real, rotarla: sacarla del índice no limpia el historial de Git.
 - Colocar el CV real en `static/docs/cv.pdf`.
