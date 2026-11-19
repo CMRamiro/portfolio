@@ -14,8 +14,8 @@
       {% endwith %}
       <form method="post" class="contact-form">
         {{ form.hidden_tag() }}
-        <label for="username">Usuario</label>
-        {{ form.username(id="username") }}
+        <label for="usuario">{{ form.usuario.label.text }}</label>
+        {{ form.usuario(id="usuario") }}
         <label for="password">Contraseña</label>
         {{ form.password(id="password") }}
         {{ form.submit(class="btn btn-primary") }}

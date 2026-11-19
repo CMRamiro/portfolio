@@ -36,6 +36,10 @@
                 <li><a href="#formacion">Formación</a></li>
                 <li><a href="#contacto">Contacto</a></li>
                 <li><a href="#cv" class="btn-nav">CV</a></li>
+                {% if current_user.is_authenticated and current_user.es_admin %}
+                <li><a href="{{ url_for('main.admin') }}">Admin</a></li>
+                <li><a href="{{ url_for('main.logout') }}">Salir</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -47,6 +51,9 @@
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 Michael Ramiro Cáceres - Portfolio personal</p>
+            {% if not current_user.is_authenticated %}
+            <p><a href="{{ url_for('main.login') }}">Acceso administrador</a></p>
+            {% endif %}
         </div>
     </footer>
 

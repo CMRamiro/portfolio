@@ -18,13 +18,19 @@ class Usuario(UserMixin, db.Model):
         db.DateTime,
         server_default=db.func.current_timestamp()
     )
+    perfil = db.relationship("Perfil", uselist=False, backref="usuario")
 
 
 class Perfil(db.Model):
     __tablename__ = "perfil"
 
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, nullable=False, unique=True)
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False,
+        unique=True
+    )
     nombre_completo = db.Column(db.String(120), nullable=False)
     titulo = db.Column(db.String(100), nullable=False)
     presentacion = db.Column(db.Text, nullable=False)

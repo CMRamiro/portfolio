@@ -1,5 +1,6 @@
-﻿# Archivos sensibles y generados
+﻿
 .env
+.env.txt
 __pycache__/
 *.pyc
 *.pyo

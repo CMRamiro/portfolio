@@ -11,7 +11,7 @@
    git remote add origin https://github.com/CMRamiro/NOMBRE_DEL_REPO.git
    git push -u origin main
    ```
-3. Verificar que `.env` NO se haya subido (ya está incluido en `.gitignore`).
+3. Verificar que `.env` y `.env.txt` NO se hayan subido (ya están incluidos en `.gitignore`). Usar `.env.example` como plantilla.
 
 ## 2. Publicación en PythonAnywhere (opción sencilla)
 1. Crear una cuenta en https://www.pythonanywhere.com
@@ -21,23 +21,52 @@
    pip install -r requirements.txt
    ```
 4. Crear el archivo `.env` con los datos reales de la base de datos.
-5. En la sección "Databases" crear una base MySQL y ejecutar `database/schema.sql` y `database/insertar_datos.sql`.
-6. Crear el usuario administrador con `python crear_admin.py`.
-7. En la sección "Web", configurar el archivo WSGI para que use `wsgi.py` (variable `application`).
-8. Recargar la web y probar.
+ 5. En la sección "Databases" crear una base MySQL y ejecutar `database/schema.sql`.
+ 6. Crear el usuario administrador con `python crear_admin.py` y luego ejecutar `database/insertar_datos.sql` (el perfil inicial se asocia al administrador creado).
+ 7. En la sección "Web", configurar el archivo WSGI para que use `wsgi.py` (variable `application`).
+ 8. Recargar la web y probar. Acceder a `/login` para gestionar el contenido desde `/admin`.
 
-## 3. Publicación en Render (opción alternativa)
-1. Subir el proyecto a GitHub.
-2. Crear un "Web Service" en Render conectado al repositorio.
-3. Configurar las variables de entorno (`SECRET_KEY`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`).
-4. Comando de inicio sugerido (requiere agregar gunicorn en el servidor):
+## 3. Publicación en Render con MySQL externo (TiDB Cloud Starter)
+1. Crear un cluster **TiDB Cloud Starter** compatible con MySQL y una base `portfolio_db` desde la consola de TiDB.
+2. En TiDB: **Connect > Public Endpoint**, crear/obtener el usuario (con prefijo), la contraseña y el puerto `4000`. Ubicar el CA del cluster o usar la CA del sistema.
+3. En Render: abrir **Connect > Outbound IP Addresses** del Web Service y agregar esos IPs/rangos al allowlist del endpoint público de TiDB.
+4. Cargar el esquema y los datos:
    ```
-   gunicorn wsgi:application
+   mysql -h HOST -P 4000 -u USUARIO -p --ssl-mode=VERIFY_IDENTITY --ssl-ca=RUTA_CA < database/schema_externo.sql
    ```
-5. Usar una base MySQL externa y ejecutar los scripts SQL.
+   Crear el administrador **antes** de cargar los datos (el perfil inicial se asocia al administrador):
+   ```
+   python crear_admin.py
+   ```
+   También podés crear usuarios sin prompts:
+   ```
+   ADMIN_NOMBRE="Michael" ADMIN_EMAIL="correo@ejemplo.com" ADMIN_PASSWORD="clave-segura" python crear_admin.py
+   ```
+   Después:
+   ```
+   mysql -h HOST -P 4000 -u USUARIO -p --ssl-mode=VERIFY_IDENTITY --ssl-ca=RUTA_CA < database/insertar_datos_externo.sql
+   ```
+   No usar `database/schema.sql` ni `database/insertar_datos.sql` en proveedores externos: incluyen `CREATE DATABASE`/`USE`.
+5. En Render crear **Web Service** desde `https://github.com/CMRamiro/portfolio`, rama `main`, región cercana al cluster TiDB y entorno **Python**.
+6. Configurar build y start:
+   ```
+   python -m pip install --upgrade pip && pip install -r requirements.txt
+   gunicorn wsgi:application --bind 0.0.0.0:${PORT:-10000} --workers ${WEB_CONCURRENCY:-2} --timeout 120 --access-logfile - --error-logfile -
+   ```
+   Gunicorn requiere Linux; en Windows probá localmente con `python app.py` o el test client.
+7. Variables de entorno en Render (tomar los nombres de `.env.example`):
+   - `SECRET_KEY`: clave larga y aleatoria.
+   - `FLASK_PRODUCTION=true`, `FLASK_DEBUG=0`.
+   - `DB_HOST`, `DB_PORT=4000`, `DB_USER`, `DB_PASSWORD`, `DB_NAME=portfolio_db`.
+   - `DB_SSL_CA=/etc/ssl/certs/ca-certificates.crt` (o la ruta del CA descargado), `DB_SSL_VERIFY_IDENTITY=true`.
+   - `WEB_CONCURRENCY=2` (opcional). Render define `PORT` automáticamente.
+   - `.python-version` ya fija Python `3.13.5`; alternativamente configurar `PYTHON_VERSION=3.13.5`.
+8. En **Health Check Path** poner `/` y desplegar.
+9. Verificar `/`, `/login`, `/static/img/cmrfoto.png`, `/static/docs/cv.pdf` y el panel `/admin`.
+10. El plan Free de Render no incluye Shell ni one-off jobs: crear el administrador desde tu máquina con `crear_admin.py`, como en el paso 4.
 
 ## 4. Recomendaciones antes de publicar
 - Cambiar la `SECRET_KEY` por una clave larga y privada.
-- No subir `.env` ni contraseñas al repositorio.
+- No subir `.env`, `.env.txt` ni contraseñas al repositorio. Si la clave de `.env.txt` fue real, rotarla: sacarla del índice no limpia el historial de Git.
 - Colocar el CV real en `static/docs/cv.pdf`.
 - Probar el login y el formulario de contacto en el sitio publicado.

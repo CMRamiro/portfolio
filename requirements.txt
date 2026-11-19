@@ -3,6 +3,7 @@ Flask
 Flask-WTF
 Flask-Login
 Flask-SQLAlchemy
-PyMySQL
+PyMySQL[rsa]==1.2.4
+gunicorn==23.0.0
 python-dotenv
 email-validator

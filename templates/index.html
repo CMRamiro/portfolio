@@ -10,13 +10,12 @@
         <div class="hero-text">
             <p class="subtitle">Hola, soy</p>
 
-            <h1>{{ perfil.nombre if perfil else "Michael Ramiro Cáceres" }}</h1>
+            <h1>{{ perfil.nombre_completo if perfil and perfil.nombre_completo else "Michael Ramiro Cáceres" }}</h1>
 
-            <h2>{{ perfil.titulo if perfil else "Desarrollador Junior" }}</h2>
+            <h2>{{ perfil.titulo if perfil and perfil.titulo else "Desarrollador Junior" }}</h2>
 
-            <p class="intro">
-                Estudiante de Técnico en Programación interesado en el
-                desarrollo de software y las nuevas tecnologías.
+            <p class="intro" style="white-space: pre-line;">
+                {{ perfil.presentacion if perfil and perfil.presentacion else "Estudiante de Técnico en Programación interesado en el desarrollo de software y las nuevas tecnologías." }}
             </p>
 
             <div class="hero-buttons">
@@ -32,8 +31,8 @@
 
         <div class="hero-image">
             <img
-                src="{{ url_for('static', filename='img/cmrfoto.png') }}"
-                alt="Foto de Michael Ramiro Cáceres"
+                src="{{ url_for('static', filename='img/' ~ (perfil.foto if perfil and perfil.foto else 'cmrfoto.png')) }}"
+                alt="Foto de {{ perfil.nombre_completo if perfil and perfil.nombre_completo else 'Michael Ramiro Cáceres' }}"
                 class="profile-photo"
             >
         </div>
@@ -50,11 +49,19 @@
 
         <div class="card about-card">
 
-            {% if perfil and perfil.descripcion %}
+            {% if perfil and (perfil.sobre_mi or perfil.objetivo) %}
 
-                <p class="about-text">
-                    {{ perfil.descripcion }}
+                {% if perfil.sobre_mi %}
+                <p class="about-text" style="white-space: pre-line;">
+                    {{ perfil.sobre_mi }}
                 </p>
+                {% endif %}
+
+                {% if perfil.objetivo %}
+                <p class="about-text" style="white-space: pre-line;">
+                    {{ perfil.objetivo }}
+                </p>
+                {% endif %}
 
             {% else %}
 
@@ -105,13 +112,13 @@
 
                 {% for t in tecnologias %}
 
-                <div class="card tech-card{% if t.aprendiendo %} learning{% endif %}">
+                <div class="card tech-card{% if t.estado == "Aprendiendo" %} learning{% endif %}">
 
                     <i class="{{ t.icono or 'fa-solid fa-code' }}"></i>
 
                     <h3>{{ t.nombre }}</h3>
 
-                    {% if t.aprendiendo %}
+                    {% if t.estado == "Aprendiendo" %}
                         <span class="badge">Aprendiendo</span>
                     {% endif %}
 
@@ -196,7 +203,15 @@
 
                 {% for p in proyectos %}
 
-                <article class="card project-card">
+                <article class="card project-card{% if p.destacado %} destacado{% endif %}">
+
+                    {% if p.imagen %}
+                    <img
+                        src="{{ url_for('static', filename='img/' ~ p.imagen) }}"
+                        alt="{{ p.titulo }}"
+                        class="project-image"
+                    >
+                    {% endif %}
 
                     <h3>{{ p.titulo }}</h3>
 
@@ -204,16 +219,30 @@
                         {{ p.descripcion or "Sin descripción." }}
                     </p>
 
-                    {% if p.url_github %}
+                    {% if p.repositorio_url %}
 
                     <a
-                        href="{{ p.url_github }}"
+                        href="{{ p.repositorio_url }}"
                         target="_blank"
                         rel="noopener"
                         class="link-project"
                     >
                         <i class="fa-brands fa-github"></i>
                         Ver en GitHub
+                    </a>
+
+                    {% endif %}
+
+                    {% if p.demo_url %}
+
+                    <a
+                        href="{{ p.demo_url }}"
+                        target="_blank"
+                        rel="noopener"
+                        class="link-project"
+                    >
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        Ver demo
                     </a>
 
                     {% endif %}
@@ -270,25 +299,25 @@
                 </h3>
 
                 <p>
-                    <strong>Carrera:</strong> {{ f.carrera }}
+                    <strong>Título:</strong> {{ f.titulo }}
                 </p>
 
-                {% if f.ubicacion %}
+                {% if f.descripcion %}
+                    <p style="white-space: pre-line;">{{ f.descripcion }}</p>
+                {% endif %}
+
+                {% if f.fecha_inicio %}
                     <p>
-                        <strong>Ubicación:</strong> {{ f.ubicacion }}
+                        <strong>Desde:</strong> {{ f.fecha_inicio }}
+                        {% if f.en_curso %}
+                            <span class="badge">En curso</span>
+                        {% endif %}
                     </p>
                 {% endif %}
 
-                {% if f.anio_inicio %}
+                {% if f.fecha_fin and not f.en_curso %}
                     <p>
-                        <strong>Año de inicio:</strong> {{ f.anio_inicio }}
-                    </p>
-                {% endif %}
-
-                {% if f.anio_fin_estimado %}
-                    <p>
-                        <strong>Año de finalización estimado:</strong>
-                        {{ f.anio_fin_estimado }}
+                        <strong>Hasta:</strong> {{ f.fecha_fin }}
                     </p>
                 {% endif %}
 
@@ -306,19 +335,15 @@
                 </h3>
 
                 <p>
-                    <strong>Carrera:</strong> Técnico en Programación
+                    <strong>Título:</strong> Técnico en Programación
                 </p>
 
                 <p>
-                    <strong>Ubicación:</strong> Córdoba, Argentina
+                    <strong>Desde:</strong> 2021
                 </p>
 
                 <p>
-                    <strong>Año de inicio:</strong> 2021
-                </p>
-
-                <p>
-                    <strong>Año de finalización estimado:</strong> 2027
+                    <strong>Hasta:</strong> 2027
                 </p>
 
             </div>
@@ -354,13 +379,20 @@
                     <i class="fa-brands fa-github"></i>
 
                     <a
-                        href="{{ perfil.github if perfil and perfil.github else 'https://github.com/CMRamiro' }}"
+                        href="{{ perfil.github_url if perfil and perfil.github_url else 'https://github.com/CMRamiro' }}"
                         target="_blank"
                         rel="noopener"
                     >
-                        {{ perfil.github if perfil and perfil.github else 'https://github.com/CMRamiro' }}
+                        {{ perfil.github_url if perfil and perfil.github_url else 'https://github.com/CMRamiro' }}
                     </a>
                 </p>
+
+                {% if perfil and perfil.ubicacion %}
+                <p>
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{ perfil.ubicacion }}
+                </p>
+                {% endif %}
 
             </div>
 
@@ -411,6 +443,14 @@
                     ) }}
 
 
+                    <label for="asunto">Asunto (opcional)</label>
+
+                    {{ form_contacto.asunto(
+                        id="asunto",
+                        placeholder="Asunto del mensaje"
+                    ) }}
+
+
                     <label for="mensaje">Mensaje</label>
 
                     {{ form_contacto.mensaje(
@@ -442,7 +482,7 @@
         </p>
 
         <a
-            href="{{ url_for('static', filename='docs/cv.pdf') }}"
+            href="{{ url_for('static', filename='docs/' ~ (perfil.cv_archivo if perfil and perfil.cv_archivo else 'cv.pdf')) }}"
             class="btn btn-primary"
             download
         >

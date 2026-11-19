@@ -1,36 +1,47 @@
-﻿-- Datos iniciales de ejemplo para el portfolio
--- Ejecutar después de database/schema.sql
+﻿USE portfolio_db;
 
-USE portfolio_db;
+INSERT INTO perfil (
+    usuario_id, nombre_completo, titulo, presentacion, sobre_mi, objetivo,
+    email, github_url, ubicacion, foto, cv_archivo
+)
+SELECT
+    id,
+    'Michael Ramiro Cáceres',
+    'Desarrollador Junior',
+    'Estudiante de Técnico en Programación interesado en el desarrollo de software y las nuevas tecnologías.',
+    'Soy Michael Ramiro Cáceres, estudiante interesado en la programación, el desarrollo de software y las nuevas tecnologías. Me considero una persona autodidacta, curiosa y con iniciativa para aprender y desarrollar nuevos proyectos.',
+    'Continuar desarrollando mis habilidades tecnológicas, participar en nuevos proyectos y construir soluciones digitales que combinen creatividad, funcionalidad e innovación.',
+    'michaelramirocaceres@gmail.com',
+    'https://github.com/CMRamiro',
+    'Córdoba, Argentina',
+    'cmrfoto.png',
+    'cv.pdf'
+FROM usuarios
+WHERE es_admin = TRUE
+ORDER BY id
+LIMIT 1;
 
--- Perfil personal
-INSERT INTO perfil (nombre, titulo, descripcion, email, github, foto, cv)
+INSERT INTO tecnologias (nombre, icono, estado, orden) VALUES
+('Python', 'fa-brands fa-python', 'Intermedio', 1),
+('HTML', 'fa-brands fa-html5', 'Avanzado', 2),
+('CSS', 'fa-brands fa-css3-alt', 'Intermedio', 3),
+('JavaScript', 'fa-brands fa-js', 'Intermedio', 4),
+('Flask', 'fa-solid fa-flask', 'Intermedio', 5),
+('Django', 'fa-solid fa-code', 'Conocimiento', 6),
+('Git', 'fa-brands fa-git-alt', 'Intermedio', 7),
+('GitHub', 'fa-brands fa-github', 'Intermedio', 8),
+('Flet', 'fa-solid fa-mobile-screen', 'Conocimiento', 9),
+('MySQL', 'fa-solid fa-database', 'Aprendiendo', 10);
+
+INSERT INTO formacion_academica (
+    institucion, titulo, descripcion, fecha_inicio, fecha_fin, en_curso, orden
+)
 VALUES (
-  'Michael Ramiro Cáceres',
-  'Desarrollador Junior',
-  'Soy Michael Ramiro Cáceres, estudiante interesado en la programación, el desarrollo de software y las nuevas tecnologías. Me considero una persona autodidacta, curiosa y con iniciativa para aprender y desarrollar nuevos proyectos.\n\nTengo conocimientos en Python, desarrollo web y bases de datos, y he trabajado en proyectos utilizando tecnologías como Flask y Django. También tengo interés en el diseño, los negocios digitales y los emprendimientos, áreas en las que busco seguir creciendo y adquiriendo experiencia.\n\nMi objetivo es continuar desarrollando mis habilidades tecnológicas, participar en nuevos proyectos y construir soluciones digitales que combinen creatividad, funcionalidad e innovación.',
-  'michaelramirocaceres@gmail.com',
-  'https://github.com/CMRamiro',
-  NULL,
-  'cv.pdf'
+    'Instituto Técnico Renault',
+    'Técnico en Programación',
+    'Formación técnica en programación y desarrollo de software.',
+    '2021',
+    '2027',
+    TRUE,
+    1
 );
-
--- Tecnologías (MySQL queda marcado como "aprendiendo")
-INSERT INTO tecnologias (nombre, icono, aprendiendo, perfil_id) VALUES
-('Python', 'fa-brands fa-python', FALSE, 1),
-('HTML', 'fa-brands fa-html5', FALSE, 1),
-('CSS', 'fa-brands fa-css3-alt', FALSE, 1),
-('JavaScript', 'fa-brands fa-js', FALSE, 1),
-('Flask', 'fa-solid fa-flask', FALSE, 1),
-('Django', 'fa-solid fa-code', FALSE, 1),
-('Git', 'fa-brands fa-git-alt', FALSE, 1),
-('GitHub', 'fa-brands fa-github', FALSE, 1),
-('Flet', 'fa-solid fa-mobile-screen', FALSE, 1),
-('MySQL', 'fa-solid fa-database', TRUE, 1);
-
--- Formación académica
-INSERT INTO formacion_academica (institucion, carrera, ubicacion, anio_inicio, anio_fin_estimado, perfil_id)
-VALUES ('Instituto Técnico Renault', 'Técnico en Programación', 'Córdoba, Argentina', 2021, 2027, 1);
-
--- Nota: los proyectos se cargan desde el panel de administración
--- para no inventar información.
